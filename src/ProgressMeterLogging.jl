@@ -40,6 +40,10 @@ likelytoprint(p) = time() + 1e-3 - p.tlast > p.dt
 
 pickcycle(xs, i) = xs[mod1(i, length(xs))]
 
+somestring(x) = x
+somestring(x, xs...) =
+    x isa AbstractString && !isempty(x) ? x : somestring(xs...)
+
 function Logging.handle_message(
     logger::ProgressLogger,
     level, title, _module, group, id, file, line;
@@ -50,20 +54,25 @@ function Logging.handle_message(
     n = 1000
     if progress isa Real && (progress <= 1 || isnan(progress))
         p = get!(logger.bars, id) do
-            desc = something(title, message, "Progress: ")
-            if !endswith(desc, " ")
-                desc = string(desc, ": ")
-            end
             color = pickcycle(logger.colors, length(logger.bars) + 1)
-            Progress(n; desc=desc, color=color, logger.options...)
+            Progress(n; color=color, logger.options...)
         end
+
         progress = isnan(progress) ? 0.0 : progress
         counter = floor(Int, progress * n)
+
+        desc = somestring(title, message, p.desc)
+        if !endswith(desc, " ")
+            desc = string(desc, ": ")
+        end
+        p.desc = desc
+
         if logger.lastid[] ∉ (id, _noid) && likelytoprint(p)
             # Switched from unfinished progress bar:
             println(p.output)
         end
         update!(p, counter)
+
         if p.printed
             logger.lastid[] = id
         end
