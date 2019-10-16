@@ -14,10 +14,11 @@ end
 @testset "(un)install_logger" begin
     if get(ENV, "CI", "false") == "true"
         orig = global_logger()
-        @test ProgressMeterLogging.install_logger() != orig
+        @test ProgressMeterLogging.install_logger() === orig
+        @test global_logger() !== orig
         demo1()
         demo2()
-        @test ProgressMeterLogging.uninstall_logger() === orig
+        @test ProgressMeterLogging.uninstall_logger() isa AbstractLogger
         @test global_logger() === orig
     end
 end

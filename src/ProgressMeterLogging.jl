@@ -111,7 +111,7 @@ function install_logger(logger::ProgressLogger)
         Logging.global_logger(LoggingExtras.DemuxLogger(logger))
     end
     =#
-    Logging.global_logger(LoggingExtras.DemuxLogger(logger))
+    previous_logger = Logging.global_logger(LoggingExtras.DemuxLogger(logger))
 end
 
 """
