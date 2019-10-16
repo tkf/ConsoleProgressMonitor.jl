@@ -3,23 +3,33 @@ module ProgressMeterLogging
 import Logging
 using ProgressMeter: Progress, finish!, update!
 
+const default_colors = [
+    :green, :blue, :magenta, :cyan, :yellow, :red, :light_black,
+    :light_green, :light_blue, :light_magenta, :light_cyan,
+    :light_yellow, :light_red,
+]
+
 """
-    ProgressLogger(; progress_options...)
+    ProgressLogger(; colors, progress_options...)
 """
 struct ProgressLogger <: Logging.AbstractLogger
     options::NamedTuple
+    colors::Vector{Symbol}
     bars::Dict{Symbol, Progress}
     lastid::typeof(Ref(:_))
 end
 
 const _noid = gensym(:_noid)
 
-ProgressLogger(options::NamedTuple) = ProgressLogger(options, Dict(), Ref(_noid))
+ProgressLogger(options::NamedTuple) =
+    ProgressLogger(options, default_colors, Dict(), Ref(_noid))
 ProgressLogger(; options...) = ProgressLogger((; options...))
 
 # https://docs.julialang.org/en/latest/stdlib/Logging/#AbstractLogger-interface-1
 
 likelytoprint(p) = time() + 1e-3 - p.tlast > p.dt
+
+pickcycle(xs, i) = xs[mod1(i, length(xs))]
 
 function Logging.handle_message(
     logger::ProgressLogger,
@@ -35,7 +45,8 @@ function Logging.handle_message(
             if !endswith(desc, " ")
                 desc = string(desc, ": ")
             end
-            Progress(n; desc=desc, logger.options...)
+            color = pickcycle(logger.colors, length(logger.bars) + 1)
+            Progress(n; desc=desc, color=color, logger.options...)
         end
         progress = isnan(progress) ? 0.0 : progress
         counter = floor(Int, progress * n)
