@@ -1,6 +1,10 @@
 module ProgressMeterLogging
 
+# Use README as the docstring of the module:
+@doc read(joinpath(dirname(@__DIR__), "README.md"), String) ProgressMeterLogging
+
 import Logging
+import LoggingExtras
 using ProgressMeter: Progress, finish!, update!
 
 const default_colors = [
@@ -89,6 +93,7 @@ install_logger(; options...) = install_logger(ProgressLogger(; options...))
 
 function install_logger(logger::ProgressLogger)
     global previous_logger
+    #=
     pkgid = Base.PkgId(
         Base.UUID("e6f89c97-d47a-5376-807f-9c37f3926c36"),
         "LoggingExtras",
@@ -97,6 +102,8 @@ function install_logger(logger::ProgressLogger)
     previous_logger = Base.invokelatest() do
         Logging.global_logger(LoggingExtras.DemuxLogger(logger))
     end
+    =#
+    Logging.global_logger(LoggingExtras.DemuxLogger(logger))
 end
 
 """
