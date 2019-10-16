@@ -1,4 +1,4 @@
-# ProgressMeterLogging
+# ProgressMeterLogging.jl: A ProgressMeter.jl-Logging.jl bridge
 
 [![Build Status](https://travis-ci.com/tkf/ProgressMeterLogging.jl.svg?branch=master)](https://travis-ci.com/tkf/ProgressMeterLogging.jl)
 [![Codecov](https://codecov.io/gh/tkf/ProgressMeterLogging.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/tkf/ProgressMeterLogging.jl)
