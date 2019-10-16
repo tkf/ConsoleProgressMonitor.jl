@@ -1,0 +1,13 @@
+name = "ProgressMeterLogging"
+uuid = "b0e84e9e-02e5-475e-ba3d-15d5a275d7bc"
+authors = ["Takafumi Arakaki <aka.tkf@gmail.com>"]
+version = "0.1.0"
+
+[compat]
+julia = "1.2"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
