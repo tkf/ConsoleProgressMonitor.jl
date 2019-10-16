@@ -73,6 +73,14 @@ Logging.shouldlog(::ProgressLogger, level, _module, group, id) =
 Logging.min_enabled_level(::ProgressLogger) = Logging.BelowMinLevel
 
 """
+    with_progresslogger(f; options...)
+
+Run `f` with `ProgressLogger` enabled.
+"""
+with_progresslogger(f; options...) =
+    Logging.with_logger(f, ProgressLogger(; options...))
+
+"""
     install_logger([logger])
 
 Install `ProgressLogger` using `LoggingExtras.DemuxLogger`.
