@@ -15,6 +15,10 @@ const default_colors = [
 
 """
     ProgressLogger(; colors, progress_options...)
+
+# Keyword Arguments
+- `colors :: Vector{Symbol}`: a list of colors used for progress meters.
+- Other keyword arguments are used for constructing `ProgressMeter.Progress`.
 """
 struct ProgressLogger <: Logging.AbstractLogger
     options::NamedTuple
@@ -25,9 +29,10 @@ end
 
 const _noid = gensym(:_noid)
 
-ProgressLogger(options::NamedTuple) =
-    ProgressLogger(options, default_colors, Dict(), Ref(_noid))
-ProgressLogger(; options...) = ProgressLogger((; options...))
+ProgressLogger(options::NamedTuple, colors::Vector{Symbol} = default_colors) =
+    ProgressLogger(options, colors, Dict(), Ref(_noid))
+ProgressLogger(; colors=default_colors, options...) =
+    ProgressLogger((; options...), colors)
 
 # https://docs.julialang.org/en/latest/stdlib/Logging/#AbstractLogger-interface-1
 
@@ -85,9 +90,12 @@ with_progresslogger(f; options...) =
     Logging.with_logger(f, ProgressLogger(; options...))
 
 """
-    install_logger([logger])
+    install_logger(; options...)
+    install_logger(logger::ProgressLogger)
 
 Install `ProgressLogger` using `LoggingExtras.DemuxLogger`.
+
+Keyword arguments `options` are passed to `ProgressLogger` constructor.
 """
 install_logger(; options...) = install_logger(ProgressLogger(; options...))
 
