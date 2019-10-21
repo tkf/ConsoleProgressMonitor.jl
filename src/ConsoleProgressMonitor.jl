@@ -1,7 +1,7 @@
-module ProgressMeterLogging
+module ConsoleProgressMonitor
 
 # Use README as the docstring of the module:
-@doc read(joinpath(dirname(@__DIR__), "README.md"), String) ProgressMeterLogging
+@doc read(joinpath(dirname(@__DIR__), "README.md"), String) ConsoleProgressMonitor
 
 import Logging
 import LoggingExtras

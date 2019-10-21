@@ -1,5 +1,5 @@
-name = "ProgressMeterLogging"
-uuid = "b0e84e9e-02e5-475e-ba3d-15d5a275d7bc"
+name = "ConsoleProgressMonitor"
+uuid = "88cd18e8-d9cc-4ea6-8889-5259c0d15c8b"
 authors = ["Takafumi Arakaki <aka.tkf@gmail.com>"]
 version = "0.1.0"
 

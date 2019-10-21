@@ -1,21 +1,21 @@
-# ProgressMeterLogging.jl: A ProgressMeter.jl-Logging.jl bridge
+# ConsoleProgressMonitor.jl: A ProgressMeter.jl-Logging.jl bridge
 
-[![Build Status](https://travis-ci.com/tkf/ProgressMeterLogging.jl.svg?branch=master)](https://travis-ci.com/tkf/ProgressMeterLogging.jl)
-[![Codecov](https://codecov.io/gh/tkf/ProgressMeterLogging.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/tkf/ProgressMeterLogging.jl)
-[![Coveralls](https://coveralls.io/repos/github/tkf/ProgressMeterLogging.jl/badge.svg?branch=master)](https://coveralls.io/github/tkf/ProgressMeterLogging.jl?branch=master)
+[![Build Status](https://travis-ci.com/tkf/ConsoleProgressMonitor.jl.svg?branch=master)](https://travis-ci.com/tkf/ConsoleProgressMonitor.jl)
+[![Codecov](https://codecov.io/gh/tkf/ConsoleProgressMonitor.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/tkf/ConsoleProgressMonitor.jl)
+[![Coveralls](https://coveralls.io/repos/github/tkf/ConsoleProgressMonitor.jl/badge.svg?branch=master)](https://coveralls.io/github/tkf/ConsoleProgressMonitor.jl?branch=master)
 
 ## Usage
 
 ### Setup
 
 ```julia
-julia> using ProgressMeterLogging
+julia> using ConsoleProgressMonitor
 
-julia> ProgressMeterLogging.install_logger();
+julia> ConsoleProgressMonitor.install_logger();
 ```
 
-Alternatively, use `ProgressMeterLogging.with_progresslogger` to
-temporary enable `ProgressMeterLogging`.
+Alternatively, use `ConsoleProgressMonitor.with_progresslogger` to
+temporary enable `ConsoleProgressMonitor`.
 
 ### Print progress meter
 
