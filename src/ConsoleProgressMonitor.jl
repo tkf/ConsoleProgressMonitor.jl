@@ -3,9 +3,10 @@ module ConsoleProgressMonitor
 # Use README as the docstring of the module:
 @doc read(joinpath(dirname(@__DIR__), "README.md"), String) ConsoleProgressMonitor
 
-import Logging
-import LoggingExtras
+using Logging: Logging, global_logger
 using ProgressMeter: Progress, finish!, update!
+
+include("router.jl")
 
 const default_colors = [
     :green, :blue, :magenta, :cyan, :yellow, :red, :light_black,
@@ -102,7 +103,7 @@ with_progresslogger(f; options...) =
     install_logger(; options...)
     install_logger(logger::ProgressLogger)
 
-Install `ProgressLogger` using `LoggingExtras.DemuxLogger`.
+Install `ProgressLogger` to global logger.
 
 Keyword arguments `options` are passed to `ProgressLogger` constructor.
 """
@@ -110,17 +111,7 @@ install_logger(; options...) = install_logger(ProgressLogger(; options...))
 
 function install_logger(logger::ProgressLogger)
     global previous_logger
-    #=
-    pkgid = Base.PkgId(
-        Base.UUID("e6f89c97-d47a-5376-807f-9c37f3926c36"),
-        "LoggingExtras",
-    )
-    LoggingExtras = Base.require(pkgid)
-    previous_logger = Base.invokelatest() do
-        Logging.global_logger(LoggingExtras.DemuxLogger(logger))
-    end
-    =#
-    previous_logger = Logging.global_logger(LoggingExtras.DemuxLogger(logger))
+    previous_logger = global_logger(ProgressLogRouter(global_logger(), logger))
 end
 
 """
@@ -131,7 +122,7 @@ Rollback the global logger to the one before last call of `install_logger`.
 function uninstall_logger()
     global previous_logger
     previous_logger === nothing && return
-    ans = Logging.global_logger(previous_logger)
+    ans = global_logger(previous_logger)
     previous_logger = nothing
     return ans
 end
