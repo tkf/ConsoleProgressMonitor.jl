@@ -88,7 +88,7 @@ end
 Logging.shouldlog(::ProgressLogger, level, _module, group, id) =
     true
 
-Logging.min_enabled_level(::ProgressLogger) = Logging.BelowMinLevel
+Logging.min_enabled_level(::ProgressLogger) = Logging.LogLevel(-1)
 
 """
     with_progresslogger(f; options...)

@@ -24,11 +24,13 @@ Any logging events that are compatible with
 specification are displayed using `ProgressMeter.Progress`.
 
 ```julia
+julia> using Logging: @logmsg, LogLevel
+
 julia> let id = gensym(:id)
            for i = 1:10
                sleep(0.1)
-               @debug "iterating" progress=i/10 _id=id
+               @logmsg LogLevel(-1) "iterating" progress=i/10 _id=id
            end
-           @debug "iterating" progress="done" _id=id
+           @logmsg LogLevel(-1) "iterating" progress="done" _id=id
        end
 ```
