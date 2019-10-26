@@ -1,7 +1,7 @@
 name = "ConsoleProgressMonitor"
 uuid = "88cd18e8-d9cc-4ea6-8889-5259c0d15c8b"
 authors = ["Takafumi Arakaki <aka.tkf@gmail.com>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
