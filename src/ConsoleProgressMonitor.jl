@@ -9,9 +9,19 @@ using ProgressMeter: Progress, finish!, update!
 include("router.jl")
 
 const default_colors = [
-    :green, :blue, :magenta, :cyan, :yellow, :red, :light_black,
-    :light_green, :light_blue, :light_magenta, :light_cyan,
-    :light_yellow, :light_red,
+    :green,
+    :blue,
+    :magenta,
+    :cyan,
+    :yellow,
+    :red,
+    :light_black,
+    :light_green,
+    :light_blue,
+    :light_magenta,
+    :light_cyan,
+    :light_yellow,
+    :light_red,
 ]
 
 """
@@ -24,7 +34,7 @@ const default_colors = [
 struct ProgressLogger <: Logging.AbstractLogger
     options::NamedTuple
     colors::Vector{Symbol}
-    bars::Dict{Symbol, Progress}
+    bars::Dict{Symbol,Progress}
     lastid::typeof(Ref(:_))
 end
 
@@ -32,7 +42,7 @@ const _noid = gensym(:_noid)
 
 ProgressLogger(options::NamedTuple, colors::Vector{Symbol} = default_colors) =
     ProgressLogger(options, colors, Dict(), Ref(_noid))
-ProgressLogger(; colors=default_colors, options...) =
+ProgressLogger(; colors = default_colors, options...) =
     ProgressLogger((; options...), colors)
 
 # https://docs.julialang.org/en/latest/stdlib/Logging/#AbstractLogger-interface-1
@@ -42,21 +52,26 @@ likelytoprint(p) = time() + 1e-3 - p.tlast > p.dt
 pickcycle(xs, i) = xs[mod1(i, length(xs))]
 
 somestring(x) = x
-somestring(x, xs...) =
-    x isa AbstractString && !isempty(x) ? x : somestring(xs...)
+somestring(x, xs...) = x isa AbstractString && !isempty(x) ? x : somestring(xs...)
 
 function Logging.handle_message(
     logger::ProgressLogger,
-    level, title, _module, group, id, file, line;
+    level,
+    title,
+    _module,
+    group,
+    id,
+    file,
+    line;
     progress = nothing,
     message = nothing,
-    _...
+    _...,
 )
     n = 1000
     if progress isa Real && (progress <= 1 || isnan(progress))
         p = get!(logger.bars, id) do
             color = pickcycle(logger.colors, length(logger.bars) + 1)
-            Progress(n; color=color, logger.options...)
+            Progress(n; color = color, logger.options...)
         end
 
         progress = isnan(progress) ? 0.0 : progress
@@ -86,8 +101,7 @@ function Logging.handle_message(
     return
 end
 
-Logging.shouldlog(::ProgressLogger, level, _module, group, id) =
-    true
+Logging.shouldlog(::ProgressLogger, level, _module, group, id) = true
 
 Logging.min_enabled_level(::ProgressLogger) = Logging.LogLevel(-1)
 
@@ -96,8 +110,7 @@ Logging.min_enabled_level(::ProgressLogger) = Logging.LogLevel(-1)
 
 Run `f` with `ProgressLogger` enabled.
 """
-with_progresslogger(f; options...) =
-    Logging.with_logger(f, ProgressLogger(; options...))
+with_progresslogger(f; options...) = Logging.with_logger(f, ProgressLogger(; options...))
 
 """
     install_logger(; options...)
