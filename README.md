@@ -4,6 +4,10 @@
 [![Codecov](https://codecov.io/gh/tkf/ConsoleProgressMonitor.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/tkf/ConsoleProgressMonitor.jl)
 [![Coveralls](https://coveralls.io/repos/github/tkf/ConsoleProgressMonitor.jl/badge.svg?branch=master)](https://coveralls.io/github/tkf/ConsoleProgressMonitor.jl?branch=master)
 
+**NOTE:**
+[TerminalLoggers.jl](https://github.com/c42f/TerminalLoggers.jl)
+supersedes this package.  Please use TerminalLoggers.jl.
+
 ## Usage
 
 ### Setup
