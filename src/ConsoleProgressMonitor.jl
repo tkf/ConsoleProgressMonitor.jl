@@ -34,14 +34,14 @@ const default_colors = [
 struct ProgressLogger <: Logging.AbstractLogger
     options::NamedTuple
     colors::Vector{Symbol}
-    bars::Dict{Symbol,Progress}
-    lastid::typeof(Ref(:_))
+    bars::Dict{Any,Progress}
+    lastid::typeof(Ref{Any}(:_))
 end
 
 const _noid = gensym(:_noid)
 
 ProgressLogger(options::NamedTuple, colors::Vector{Symbol} = default_colors) =
-    ProgressLogger(options, colors, Dict(), Ref(_noid))
+    ProgressLogger(options, colors, Dict(), Ref{Any}(_noid))
 ProgressLogger(; colors = default_colors, options...) =
     ProgressLogger((; options...), colors)
 
@@ -77,7 +77,7 @@ function Logging.handle_message(
         progress = isnan(progress) ? 0.0 : progress
         counter = floor(Int, progress * n)
 
-        desc = somestring(title, message, p.desc)
+        desc = somestring(string(title), message, p.desc)
         if !endswith(desc, " ")
             desc = string(desc, ": ")
         end
